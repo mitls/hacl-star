@@ -2887,8 +2887,10 @@ deserialize_hash_vec(
   uint32_t pos
 )
 {
+  regional__uint32_t__uint8_t_
+  hrg = { .state = hash_size, .dummy = NULL, .r_alloc = hash_r_alloc, .r_free = hash_r_free };
   regional__uint32_t_LowStar_Vector_vector_str___uint8_t_
-  rg =
+  hvrg =
     {
       .state = hash_size,
       .dummy = { .sz = (uint32_t)0U, .cap = (uint32_t)0U, .vs = NULL },
@@ -2902,10 +2904,12 @@ deserialize_hash_vec(
         (__bool_uint32_t_LowStar_Vector_vector_str___uint8_t_){
           .fst = false,
           .snd = pos,
-          .thd = rg.dummy
+          .thd = hvrg.dummy
         }
       );
   }
+  LowStar_Vector_vector_str___uint8_t_
+  empty_vec = alloc_reserve___uint8_t_((uint32_t)1U, hrg.dummy);
   __bool_uint32_t_uint32_t scrut0 = deserialize_uint32_t(ok, buf, sz, pos);
   bool ok1 = scrut0.fst;
   uint32_t pos1 = scrut0.snd;
@@ -2917,7 +2921,7 @@ deserialize_hash_vec(
         (__bool_uint32_t_LowStar_Vector_vector_str___uint8_t_){
           .fst = false,
           .snd = pos1,
-          .thd = { .sz = (uint32_t)0U, .cap = (uint32_t)0U, .vs = NULL }
+          .thd = empty_vec
         }
       );
   }
@@ -2928,12 +2932,10 @@ deserialize_hash_vec(
         (__bool_uint32_t_LowStar_Vector_vector_str___uint8_t_){
           .fst = true,
           .snd = pos1,
-          .thd = { .sz = (uint32_t)0U, .cap = (uint32_t)0U, .vs = NULL }
+          .thd = empty_vec
         }
       );
   }
-  regional__uint32_t__uint8_t_
-  hrg = { .state = hash_size, .dummy = NULL, .r_alloc = hash_r_alloc, .r_free = hash_r_free };
   LowStar_Vector_vector_str___uint8_t_ res = alloc___uint8_t_(n, hrg.dummy);
   __bool_uint32_t
   scrut = deserialize_hash_vec_i(hash_size, ok1, buf, sz, pos1, res, (uint32_t)0U);
@@ -2982,6 +2984,31 @@ deserialize_hash_vv_i(
 
 /* SNIPPET_END: deserialize_hash_vv_i */
 
+/* SNIPPET_START: alloc_reserve__LowStar_Vector_vector_str__uint8_t_ */
+
+static LowStar_Vector_vector_str__LowStar_Vector_vector_str___uint8_t_
+alloc_reserve__LowStar_Vector_vector_str__uint8_t_(
+  uint32_t len,
+  LowStar_Vector_vector_str___uint8_t_ ia
+)
+{
+  KRML_CHECK_SIZE(sizeof (LowStar_Vector_vector_str___uint8_t_), len);
+  LowStar_Vector_vector_str___uint8_t_
+  *buf = KRML_HOST_MALLOC(sizeof (LowStar_Vector_vector_str___uint8_t_) * len);
+  for (uint32_t _i = 0U; _i < len; ++_i)
+    buf[_i] = ia;
+  return
+    (
+      (LowStar_Vector_vector_str__LowStar_Vector_vector_str___uint8_t_){
+        .sz = (uint32_t)0U,
+        .cap = len,
+        .vs = buf
+      }
+    );
+}
+
+/* SNIPPET_END: alloc_reserve__LowStar_Vector_vector_str__uint8_t_ */
+
 /* SNIPPET_START: alloc__LowStar_Vector_vector_str__uint8_t_ */
 
 static LowStar_Vector_vector_str__LowStar_Vector_vector_str___uint8_t_
@@ -3013,6 +3040,16 @@ __bool_uint32_t_LowStar_Vector_vector_str__LowStar_Vector_vector_str___uint8_t_;
 static __bool_uint32_t_LowStar_Vector_vector_str__LowStar_Vector_vector_str___uint8_t_
 deserialize_hash_vv(uint32_t hash_size, bool ok, const uint8_t *buf, uint32_t sz, uint32_t pos)
 {
+  regional__uint32_t_LowStar_Vector_vector_str___uint8_t_
+  rg =
+    {
+      .state = hash_size,
+      .dummy = { .sz = (uint32_t)0U, .cap = (uint32_t)0U, .vs = NULL },
+      .r_alloc = hash_vec_r_alloc,
+      .r_free = hash_vec_r_free
+    };
+  LowStar_Vector_vector_str__LowStar_Vector_vector_str___uint8_t_
+  empty_vec = alloc_reserve__LowStar_Vector_vector_str__uint8_t_((uint32_t)1U, rg.dummy);
   if (!ok || pos >= sz)
   {
     return
@@ -3020,7 +3057,7 @@ deserialize_hash_vv(uint32_t hash_size, bool ok, const uint8_t *buf, uint32_t sz
         (__bool_uint32_t_LowStar_Vector_vector_str__LowStar_Vector_vector_str___uint8_t_){
           .fst = false,
           .snd = pos,
-          .thd = { .sz = (uint32_t)0U, .cap = (uint32_t)0U, .vs = NULL }
+          .thd = empty_vec
         }
       );
   }
@@ -3035,7 +3072,7 @@ deserialize_hash_vv(uint32_t hash_size, bool ok, const uint8_t *buf, uint32_t sz
         (__bool_uint32_t_LowStar_Vector_vector_str__LowStar_Vector_vector_str___uint8_t_){
           .fst = false,
           .snd = pos1,
-          .thd = { .sz = (uint32_t)0U, .cap = (uint32_t)0U, .vs = NULL }
+          .thd = empty_vec
         }
       );
   }
@@ -3046,18 +3083,10 @@ deserialize_hash_vv(uint32_t hash_size, bool ok, const uint8_t *buf, uint32_t sz
         (__bool_uint32_t_LowStar_Vector_vector_str__LowStar_Vector_vector_str___uint8_t_){
           .fst = true,
           .snd = pos1,
-          .thd = { .sz = (uint32_t)0U, .cap = (uint32_t)0U, .vs = NULL }
+          .thd = empty_vec
         }
       );
   }
-  regional__uint32_t_LowStar_Vector_vector_str___uint8_t_
-  rg =
-    {
-      .state = hash_size,
-      .dummy = { .sz = (uint32_t)0U, .cap = (uint32_t)0U, .vs = NULL },
-      .r_alloc = hash_vec_r_alloc,
-      .r_free = hash_vec_r_free
-    };
   LowStar_Vector_vector_str__LowStar_Vector_vector_str___uint8_t_
   res = alloc__LowStar_Vector_vector_str__uint8_t_(n, rg.dummy);
   __bool_uint32_t
